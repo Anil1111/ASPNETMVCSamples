@@ -11,6 +11,10 @@ Check this public class ListDemoController : Controller
 
 and head straight to the following two functions to see what I am talking about. 
 
+the URI path might look something like this 
+
+http://localhost:52772/ListDemo
+
 public ActionResult Index()
 
 and
