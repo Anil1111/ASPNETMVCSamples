@@ -1,0 +1,81 @@
+﻿@model ASPMVCListDemo.Controllers.TempListViewModel
+
+@{
+    ViewBag.Title = "List Page";
+
+    //Lets build our select list here.
+    //This works on two levels
+    //first we build a list of type SelectListItem
+    //then, we feed this list into another type called SelectList
+    //the SelectList is the primary UI element that will go to the view and allow the user to select stuff
+
+    //Step One
+    List<SelectListItem> selectListItems = new List<SelectListItem>();
+    foreach (var x in Model.listOfNames)
+    {
+        //looping through each item in the collection that is available in the model.
+        var tempSelectListItem = new SelectListItem();
+        tempSelectListItem.Text = x;
+        //the text above will always be a string. that is the display so its a string by design
+        //the value below may not be a string. if so make it a string and send it. when it comes back, you can convert it back to whatever type you were dealing with
+        tempSelectListItem.Value = x;
+        selectListItems.Add(tempSelectListItem);
+    }
+
+    //Step Two
+    var selectList = new SelectList(selectListItems, "Value", "Text");
+}
+
+<div class="jumbotron">
+    <h1>List Page</h1>
+    @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+
+<div class="row">
+    @*<div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>*@
+
+
+</div>
+
+@*this form when is submit sends the view model with values back to the controller*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Pick A Name</h4>
+    <hr />
+    @*At this point, we have the select list prepared above using the collection that comes with view model*@
+    @*here we are asking the selection to end up in the selectedName entry of the view model*@
+    @*due to standard GET AND POST MVC rules, the viewmodel is returned to the controller*@
+    @Html.DropDownListFor(model => model.selectedName, selectList, "pick a name", new { @class = "css-class" })
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Submit" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+
+}
